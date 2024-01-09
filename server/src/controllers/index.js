@@ -1,3 +1,3 @@
-import { register } from "./auth.js";
+import { register, login } from "./auth.js";
 
-export { register };
+export { register, login };

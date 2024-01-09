@@ -23,3 +23,23 @@ DELETE http://localhost:5000/tasks/659c17a914f3846232fe3828
 PUT http://localhost:5000/tasks/659c21a487116be0c8ceda05/complete
 
 ###
+
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "email": "anastasiya.sychova@gmail.com",
+    "password": "password"
+}
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "anastasiya.sychova@gmail.com",
+    "password": "password"
+}
+
+###
