@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 
-import User from "../models/User";
-import { generateToken } from "../utils/tokenGenerator";
+import { User } from "../models/index.js";
+import generateToken from "../utils/tokenGenerator.js";
 
 // MAYBE NEED TO PASS NEXT IN THE END
-const signup = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -27,3 +27,5 @@ const signup = async (req, res) => {
     console.error(error);
   }
 };
+
+export { register };

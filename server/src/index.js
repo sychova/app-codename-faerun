@@ -3,12 +3,15 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-
+import cookieParser from "cookie-parser";
+import { authRouter } from "./routes/index.js";
 const { MONGO_URL, PORT } = process.env;
+
 import { Task } from "./models/index.js";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
@@ -25,7 +28,7 @@ mongoose
   .then(() => console.log("DB connection successfully established!"))
   .catch(console.error);
 
-// routes
+//////////////////////////////////////////////////////////////////////////////
 app.get("/tasks", async (req, res) => {
   const tasks = await Task.find();
 
@@ -63,6 +66,9 @@ app.put("/tasks/:id/complete", async (req, res) => {
 
   res.json(task);
 });
+//////////////////////////////////////////////////////////////////////////////
+
+app.use("/", authRouter);
 
 const port = PORT || 8080;
 
