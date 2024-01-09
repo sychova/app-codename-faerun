@@ -51,7 +51,9 @@ const Registration = () => {
         setTimeout(() => {
           navigate("/");
         }, 1000);
-      } else {
+      }
+
+      if (!success) {
         handleError(message);
       }
     } catch (error) {

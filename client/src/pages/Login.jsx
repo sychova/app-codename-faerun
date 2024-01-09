@@ -41,13 +41,17 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+
       const { success, message } = data;
+
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
           navigate("/");
         }, 1000);
-      } else {
+      }
+
+      if (!success) {
         handleError(message);
       }
     } catch (error) {

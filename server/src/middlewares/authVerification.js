@@ -11,15 +11,19 @@ const authVerification = (req, res) => {
   }
 
   jwt.verify(jwtToken, process.env.TOKEN_KEY, async (error, data) => {
-    if (error) {
-      return res.status(403).json({ status: false });
-    } else {
+    if (!error) {
       const user = await User.findById(data.id);
       if (user) {
         return res.status(200).json({ status: true, user: user.email });
-      } else {
+      }
+
+      if (!user) {
         return res.status(403).json({ status: false });
       }
+    }
+
+    if (error) {
+      return res.status(403).json({ status: false });
     }
   });
 };
