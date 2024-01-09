@@ -16,8 +16,11 @@ const Tasks = () => {
   const GetTasks = () => {
     fetch(API_BASE + "/tasks")
       .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .catch((error) => console.error("Error:", error));
+      .then((data) => {
+        console.log("data", data);
+        setTasks(data);
+      })
+      .catch((error) => console.error(error));
   };
 
   const completeTask = async (id) => {

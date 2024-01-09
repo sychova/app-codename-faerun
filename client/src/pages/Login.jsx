@@ -4,15 +4,18 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 // TODO make prettier
-const API_BASE = "http://localhost:5000";
+const API_BASE = "http://localhost:5000/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -90,7 +93,8 @@ const Login = () => {
         </div>
         <button type="submit">Submit</button>
         <span>
-          Don't have an account? <Link to={"/registration"}>Registration</Link>
+          Don't have an account?{" "}
+          <Link to={"/auth/registration"}>Registration</Link>
         </span>
       </form>
       <ToastContainer />

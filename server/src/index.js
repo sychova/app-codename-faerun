@@ -29,8 +29,9 @@ mongoose
   .then(() => console.log("DB connection successfully established!"))
   .catch(console.error);
 
-app.use("/", authRouter);
-app.use("/tasks", tasksRouter);
+app.post("/", (req, res) => res.status(200));
+app.use("/auth", authRouter);
+app.use("/tasks", authVerification, tasksRouter);
 
 const port = PORT || 8080;
 

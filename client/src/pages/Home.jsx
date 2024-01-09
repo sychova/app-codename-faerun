@@ -9,14 +9,15 @@ const API_BASE = "http://localhost:5000";
 
 const Home = () => {
   const navigate = useNavigate();
+
   const [cookies, removeCookie] = useCookies([]);
   // TODO redo to be stuff before @
   // const [username, setUsername] = useState("");
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
+      if (!cookies.jwtToken) {
+        navigate("/auth/login");
       }
       const { data } = await axios.post(
         API_BASE,
@@ -29,22 +30,24 @@ const Home = () => {
       // setUsername(user);
 
       return status
-        ? toast(`Hello ${user}`, {
+        ? toast(`Hello traveller`, {
             position: "top-right",
           })
-        : (removeCookie("token"), navigate("/login"));
+        : (removeCookie("jwtToken"), navigate("/auth/login"));
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
-  const Logout = () => {
-    removeCookie("token");
-    navigate("/registration");
+
+  const logout = () => {
+    removeCookie("jwtToken");
+    navigate("/auth/registration");
   };
+
   return (
     <>
       <div className="home_page">
         <h4>Welcome traveller</h4>
-        <button onClick={Logout}>LOGOUT</button>
+        <button onClick={logout}>LOGOUT</button>
       </div>
       <ToastContainer />
     </>

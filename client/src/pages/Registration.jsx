@@ -4,14 +4,16 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 // TODO make prettier
-const API_BASE = "http://localhost:5000";
+const API_BASE = "http://localhost:5000/auth";
 
 const Registration = () => {
   const navigate = useNavigate();
+
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
 
   // TODO add this to tasks
@@ -92,7 +94,7 @@ const Registration = () => {
         </div>
         <button type="submit">Submit</button>
         <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
+          Already have an account? <Link to={"/auth/login"}>Login</Link>
         </span>
       </form>
       <ToastContainer />
