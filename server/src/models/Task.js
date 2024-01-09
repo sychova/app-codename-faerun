@@ -4,7 +4,7 @@ const TaskSchema = new mongoose.Schema(
   {
     text: {
       type: String,
-      required: true,
+      required: [true, "Message text is required"],
     },
     status: {
       type: Boolean,
