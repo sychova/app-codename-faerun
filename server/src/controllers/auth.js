@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
-const User = require("../models/User");
-const { generateToken } = require("../utils/tokenGenerator");
+import User from "../models/User";
+import { generateToken } from "../utils/tokenGenerator";

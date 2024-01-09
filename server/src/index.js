@@ -1,10 +1,11 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { MONGO_URL, PORT } = process.env;
-const Task = require("./models/Task");
+import Task from "./models/Task.js";
 
 const app = express();
 
