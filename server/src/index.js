@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
-import { authRouter } from "./routes/index.js";
+import { authRouter, tasksRouter } from "./routes/index.js";
 const { MONGO_URL, PORT } = process.env;
 
 import authVerification from "./middlewares/authVerification.js";
@@ -29,6 +29,7 @@ mongoose
   .catch(console.error);
 
 app.use("/", authVerification, authRouter);
+app.use("/tasks", authVerification, tasksRouter);
 
 const port = PORT || 8080;
 
