@@ -1,20 +1,27 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
+const { MONGO_URL, PORT } = process.env;
 const Task = require("./models/Task");
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/sorcerous-sundries", {
+  .connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to db"))
+  .then(() => console.log("DB connection successfully established!"))
   .catch(console.error);
 
 // routes
@@ -56,7 +63,7 @@ app.put("/tasks/:id/complete", async (req, res) => {
   res.json(task);
 });
 
-const port = 5000; // process.env.PORT || 8080;
+const port = PORT || 8080;
 
 app.listen(port, () =>
   console.log(`App listening on http://localhost:${port}`)
