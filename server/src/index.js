@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const { MONGO_URL, PORT } = process.env;
-import Task from "./models/Task.js";
+import { Task } from "./models/index.js";
 
 const app = express();
 
