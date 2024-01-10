@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import {
+  Container,
+  TextField,
+  Button,
+  List,
+  ListItem,
+  Checkbox,
+  Typography,
+} from "@mui/material";
 
 import verifyCookie from "../helpers/verifyCookie.js";
 
@@ -24,18 +33,16 @@ const Tasks = () => {
     verifyCookie(cookies, navigate);
   }, [cookies, navigate, removeCookie]);
 
-  // TODO
   const GetTasks = () => {
     fetch(API_BASE + "/tasks")
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         setTasks(data);
       })
       .catch((error) => console.error(error));
   };
 
-  const completeTask = async (id) => {
+  const handleComplete = async (id) => {
     try {
       const response = await axios.put(`${API_BASE}/tasks/${id}/complete`);
       const data = response.data;
@@ -54,7 +61,7 @@ const Tasks = () => {
     }
   };
 
-  const deleteTask = async (e, id) => {
+  const handleDelete = async (e, id) => {
     try {
       e.stopPropagation();
 
@@ -68,7 +75,7 @@ const Tasks = () => {
     }
   };
 
-  const addTask = async () => {
+  const handleAdd = async () => {
     try {
       const response = await axios.post(
         `${API_BASE}/tasks`,
@@ -99,20 +106,19 @@ const Tasks = () => {
           <div
             className={"task " + (task.status ? "is-complete" : "")}
             key={task._id}
-            onClick={() => completeTask(task._id)}
+            onClick={() => handleComplete(task._id)}
           >
             <div className="checkbox"></div>
             <div className="text">{task.text}</div>
             <div
               className="delete-task"
-              onClick={(e) => deleteTask(e, task._id)}
+              onClick={(e) => handleDelete(e, task._id)}
             >
               x
             </div>
           </div>
         ))}
       </div>
-
       <div className="addPopup" onClick={() => setPopupActive(true)}>
         +
       </div>
@@ -129,7 +135,7 @@ const Tasks = () => {
               onChange={(e) => setNewTask(e.target.value)}
               value={newTask}
             />
-            <div className="button" onClick={() => addTask()}>
+            <div className="button" onClick={() => handleAdd()}>
               Create task
             </div>
           </div>

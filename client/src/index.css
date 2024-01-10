@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --primary: #d81e5b;
   --secondary: #8a4efc;
   --light: #eee;
@@ -179,7 +179,7 @@ h4 {
 
 /* THIS IS CSS FOR OTHER PAGES */
 
-*,
+/*,
 ::before,
 ::after {
   box-sizing: border-box;
@@ -307,4 +307,4 @@ span a {
     padding: 0.6rem 1rem;
     font-size: 1.5rem;
   }
-}
+} */

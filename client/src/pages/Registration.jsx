@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import {
+  Grid,
+  CssBaseline,
+  Paper,
+  Box,
+  Typography,
+  TextField,
+  Button,
+} from "@mui/material";
 
+// TODO make prettier
 const API_BASE = "http://localhost:5000/auth";
 
 const Registration = () => {
@@ -15,7 +25,6 @@ const Registration = () => {
 
   const { email, password } = inputValue;
 
-  // TODO add this to tasks
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -29,8 +38,8 @@ const Registration = () => {
       position: "bottom-left",
     });
 
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
+  const handleSuccess = () =>
+    toast.success("Qapla'!", {
       position: "bottom-right",
     });
 
@@ -45,20 +54,23 @@ const Registration = () => {
         { withCredentials: true }
       );
 
-      const { success, message } = data;
+      const { status, message } = data;
 
-      if (success) {
-        handleSuccess(message);
+      if (status) {
         setTimeout(() => {
-          navigate("/");
-        }, 1000);
+          handleSuccess();
+        }, 10);
+        navigate("/");
       }
 
-      if (!success) {
-        handleError(message);
+      if (!status) {
       }
     } catch (error) {
-      console.error(error);
+      const { status, message } = error.response.data;
+
+      setTimeout(() => {
+        handleError(message);
+      }, "10");
     }
     setInputValue({
       ...inputValue,
@@ -68,36 +80,85 @@ const Registration = () => {
   };
 
   return (
-    <div className="form_container">
-      <h2>Travellers registration</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
-        </div>
-        <button type="submit">Submit</button>
-        <span>
-          Already have an account? <Link to={"/auth/login"}>Login</Link>
-        </span>
-      </form>
-      <ToastContainer />
-    </div>
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={12}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage:
+            "url(https://preview.redd.it/4m0c6xhm1vib1.jpg?width=2560&format=pjpg&auto=webp&s=6efd34a56fbe4cec2d694b581630d491f9dff72a)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid item xs={1} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box
+          sx={{
+            my: 8,
+            mx: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div className="form_container">
+            <Typography component="h1" variant="h5">
+              Register here
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={handleOnChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={handleOnChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link to={"/auth/login"}>
+                    {"Already have an account? Sign In!"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+            <ToastContainer />
+          </div>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
