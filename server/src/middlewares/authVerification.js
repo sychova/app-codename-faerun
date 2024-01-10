@@ -15,14 +15,13 @@ const authVerification = (req, res, next) => {
       if (!error) {
         const user = await User.findById(data.id);
         if (user) {
-          return next();
+          req.userId = data.id;
+          next();
         }
-
         if (!user) {
           return res.status(403).json({ status: false });
         }
       }
-
       if (error) {
         return res.status(403).json({ status: false });
       }

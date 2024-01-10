@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-// TODO make prettier
 const API_BASE = "http://localhost:5000/auth";
 
 const Registration = () => {

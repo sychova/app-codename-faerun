@@ -7,8 +7,6 @@ const register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log("This is front to back");
-
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
@@ -36,14 +34,20 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res
         .status(400)
-        .json({ message: "Please provide both email and password." });
+        .json({
+          status: false,
+          message: "Please provide both email and password.",
+        });
     }
 
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
       return res
         .status(404)
-        .json({ message: "User with provided email does not exist." });
+        .json({
+          status: false,
+          message: "User with provided email does not exist.",
+        });
     }
 
     const auth = await bcrypt.compare(password, existingUser.password);
@@ -51,7 +55,10 @@ const login = async (req, res) => {
     if (!auth) {
       return res
         .status(403)
-        .json({ message: "You shall not pass! (wrong email or password)" });
+        .json({
+          status: false,
+          message: "You shall not pass! (wrong email or password)",
+        });
     }
 
     const jwtToken = generateToken(existingUser._id);
@@ -60,7 +67,7 @@ const login = async (req, res) => {
       withCredentials: true,
       httpOnly: false,
     });
-    res.status(200).json({ message: "Success!" });
+    res.status(200).json({ status: true });
   } catch (error) {
     console.error(error);
   }

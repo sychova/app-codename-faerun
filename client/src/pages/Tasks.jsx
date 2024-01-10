@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
+
+import verifyCookie from "../helpers/verifyCookie.js";
 
 const API_BASE = "http://localhost:3000";
 
@@ -12,11 +16,20 @@ const Tasks = () => {
     GetTasks();
   }, []);
 
+  const navigate = useNavigate();
+
+  const [cookies, removeCookie] = useCookies([]);
+
+  useEffect(() => {
+    verifyCookie(cookies, navigate);
+  }, [cookies, navigate, removeCookie]);
+
   // TODO
   const GetTasks = () => {
     fetch(API_BASE + "/tasks")
       .then((res) => res.json())
       .then((data) => {
+        console.log("data", data);
         setTasks(data);
       })
       .catch((error) => console.error(error));
@@ -41,9 +54,12 @@ const Tasks = () => {
     }
   };
 
-  const deleteTask = async (id) => {
+  const deleteTask = async (e, id) => {
     try {
+      e.stopPropagation();
+
       const response = await axios.delete(`${API_BASE}/tasks/${id}`);
+
       const data = response.data;
 
       setTasks((tasks) => tasks.filter((task) => task._id !== data._id));
@@ -77,7 +93,7 @@ const Tasks = () => {
   return (
     <div className="App">
       <h1>Welcome, weary traveller!</h1>
-      <h4>Active quests:</h4>
+      <h4>Your quests, sire:</h4>
       <div className="tasks">
         {tasks.map((task) => (
           <div
@@ -87,7 +103,10 @@ const Tasks = () => {
           >
             <div className="checkbox"></div>
             <div className="text">{task.text}</div>
-            <div className="delete-task" onClick={() => deleteTask(task._id)}>
+            <div
+              className="delete-task"
+              onClick={(e) => deleteTask(e, task._id)}
+            >
               x
             </div>
           </div>

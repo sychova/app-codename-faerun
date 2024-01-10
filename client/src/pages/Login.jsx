@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-// TODO make prettier
 const API_BASE = "http://localhost:5000/auth";
 
 const Login = () => {
@@ -29,8 +28,8 @@ const Login = () => {
       position: "bottom-left",
     });
 
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
+  const handleSuccess = () =>
+    toast.success("Qapla'!", {
       position: "bottom-left",
     });
 
@@ -45,21 +44,25 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      const { success, message } = data;
+      const { status, message } = data;
 
-      if (success) {
-        handleSuccess(message);
+      if (status) {
         setTimeout(() => {
-          navigate("/");
-        }, 1000);
+          handleSuccess();
+        }, "10");
+        navigate("/");
       }
 
-      if (!success) {
-        handleError(message);
+      if (!status) {
       }
     } catch (error) {
-      console.error(error);
+      const { status, message } = error.response.data;
+
+      setTimeout(() => {
+        handleError(message);
+      }, "10");
     }
+
     setInputValue({
       ...inputValue,
       email: "",

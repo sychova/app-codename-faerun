@@ -2,7 +2,7 @@ import { Task } from "../models/index.js";
 
 const getTaskAll = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({ user: req.userId });
 
     res.json(tasks);
   } catch (error) {
@@ -23,6 +23,7 @@ const getTaskById = async (req, res) => {
 const createTask = async (req, res) => {
   const newTask = new Task({
     text: req.body.text,
+    user: req.userId,
   });
 
   newTask.save();

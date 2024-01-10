@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
+
 const TaskSchema = new mongoose.Schema(
   {
     text: {
@@ -9,6 +11,10 @@ const TaskSchema = new mongoose.Schema(
     status: {
       type: Boolean,
       default: false,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
