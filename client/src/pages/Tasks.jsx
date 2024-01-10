@@ -17,7 +17,6 @@ const Tasks = () => {
     fetch(API_BASE + "/tasks")
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         setTasks(data);
       })
       .catch((error) => console.error(error));
@@ -77,9 +76,8 @@ const Tasks = () => {
 
   return (
     <div className="App">
-      <h1>Welcome, weary traveller</h1>
-      <h4>These are your quests:</h4>
-
+      <h1>Welcome, weary traveller!</h1>
+      <h4>Active quests:</h4>
       <div className="tasks">
         {tasks.map((task) => (
           <div

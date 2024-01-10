@@ -7,6 +7,8 @@ const register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log("This is front to back");
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
