@@ -11,7 +11,6 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
-      - logs:/app/logs
     depends_on:
       - mongo
   client:
@@ -26,4 +25,3 @@ services:
       - server
 volumes:
   data:
-  logs:
