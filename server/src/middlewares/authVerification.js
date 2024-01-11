@@ -8,7 +8,7 @@ const authVerification = (req, res, next) => {
   try {
     const jwtToken = req.cookies.jwtToken;
     if (!jwtToken) {
-      return res.status(403).json({ status: false });
+      return res.status(403).json({ status: false, message: "1" });
     }
 
     jwt.verify(jwtToken, process.env.TOKEN_KEY, async (error, data) => {
@@ -19,11 +19,11 @@ const authVerification = (req, res, next) => {
           next();
         }
         if (!user) {
-          return res.status(403).json({ status: false });
+          return res.status(403).json({ status: false, message: "2" });
         }
       }
       if (error) {
-        return res.status(403).json({ status: false });
+        return res.status(403).json({ status: false, message: "3" });
       }
     });
   } catch (error) {

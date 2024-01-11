@@ -17,42 +17,43 @@ import {
 
 import verifyCookie from "../helpers/verifyCookie.js";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://localhost:5000/tasks";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [modalState, setModalState] = useState(false);
   const [newTask, setNewTask] = useState("");
 
-  useEffect(() => {
-    GetTasks();
-  }, []);
-
   const navigate = useNavigate();
 
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies] = useCookies([]);
+
+  const getTasks = async () => {
+    try {
+      const { data } = await axios.get(API_BASE, { withCredentials: true });
+      setTasks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     verifyCookie(cookies, navigate);
-  }, [cookies, navigate, removeCookie]);
+    getTasks();
+  }, [cookies, navigate]);
 
   const handleError = (err) =>
     toast.error(err, {
       position: "bottom-left",
     });
 
-  const GetTasks = () => {
-    fetch(API_BASE + "/tasks")
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-      })
-      .catch((error) => console.error(error));
-  };
-
   const handleComplete = async (id) => {
     try {
-      const response = await axios.put(`${API_BASE}/tasks/${id}/complete`);
+      const response = await axios.put(
+        `${API_BASE}/${id}/complete`,
+        {},
+        { withCredentials: true }
+      );
       const data = response.data;
 
       setTasks((tasks) =>
@@ -65,7 +66,7 @@ const Tasks = () => {
         })
       );
     } catch (error) {
-      console.error("Error completing task:", error);
+      console.error(error);
     }
   };
 
@@ -73,7 +74,11 @@ const Tasks = () => {
     try {
       e.stopPropagation();
 
-      const response = await axios.delete(`${API_BASE}/tasks/${id}`);
+      const response = await axios.delete(
+        `${API_BASE}/${id}`,
+        {},
+        { withCredentials: true }
+      );
 
       const data = response.data;
 
@@ -86,12 +91,13 @@ const Tasks = () => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        `${API_BASE}/tasks`,
+        API_BASE,
         { text: newTask },
         {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
 

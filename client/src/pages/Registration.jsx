@@ -12,7 +12,6 @@ import {
   Button,
 } from "@mui/material";
 
-// TODO make prettier
 const API_BASE = "http://localhost:5000/auth";
 
 const Registration = () => {

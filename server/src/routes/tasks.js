@@ -1,5 +1,6 @@
 import express from "express";
 
+import authVerification from "../middlewares/authVerification.js";
 import {
   getTaskAll,
   getTaskById,
@@ -10,13 +11,13 @@ import {
 
 const tasksRouter = express.Router();
 
-tasksRouter.get("/", getTaskAll);
-tasksRouter.get("/:id", getTaskById);
+tasksRouter.get("/", authVerification, getTaskAll);
+tasksRouter.get("/:id", authVerification, getTaskById);
 
-tasksRouter.post("/", createTask);
+tasksRouter.post("/", authVerification, createTask);
 
-tasksRouter.delete("/:id", deleteTask);
+tasksRouter.delete("/:id", authVerification, deleteTask);
 
-tasksRouter.put("/:id/complete", completeTask);
+tasksRouter.put("/:id/complete", authVerification, completeTask);
 
 export default tasksRouter;

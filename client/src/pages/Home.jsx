@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     verifyCookie(cookies, navigate);
-  }, [cookies, navigate, removeCookie]);
+  }, [cookies, navigate]);
 
   const logout = () => {
     removeCookie("jwtToken");

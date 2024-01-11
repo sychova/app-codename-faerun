@@ -31,7 +31,7 @@ mongoose
 
 app.post("/", authVerification, (req, res) => res.status(200));
 app.use("/auth", authRouter);
-app.use("/tasks", authVerification, tasksRouter);
+app.use("/tasks", tasksRouter);
 
 const port = PORT || 8080;
 
