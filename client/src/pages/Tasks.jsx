@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import {
-  Container,
-  TextField,
   Button,
   List,
   ListItem,
   Checkbox,
   Typography,
+  Box,
+  CssBaseline,
+  Modal,
+  TextField,
 } from "@mui/material";
 
 import verifyCookie from "../helpers/verifyCookie.js";
@@ -18,7 +21,7 @@ const API_BASE = "http://localhost:3000";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
-  const [popupActive, setPopupActive] = useState(false);
+  const [modalState, setModalState] = useState(false);
   const [newTask, setNewTask] = useState("");
 
   useEffect(() => {
@@ -32,6 +35,11 @@ const Tasks = () => {
   useEffect(() => {
     verifyCookie(cookies, navigate);
   }, [cookies, navigate, removeCookie]);
+
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "bottom-left",
+    });
 
   const GetTasks = () => {
     fetch(API_BASE + "/tasks")
@@ -90,59 +98,123 @@ const Tasks = () => {
       const data = response.data;
 
       setTasks([...tasks, data]);
-      setPopupActive(false);
+      setModalState(false);
       setNewTask("");
     } catch (error) {
-      console.error(error);
+      const { status, message } = error.response.data;
+
+      setTimeout(() => {
+        handleError(message);
+      }, "10");
     }
   };
 
   return (
     <div className="App">
-      <h1>Welcome, weary traveller!</h1>
-      <h4>Your quests, sire:</h4>
-      <div className="tasks">
-        {tasks.map((task) => (
-          <div
-            className={"task " + (task.status ? "is-complete" : "")}
-            key={task._id}
-            onClick={() => handleComplete(task._id)}
+      <Box
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundImage: `url(https://staticdelivery.nexusmods.com/images/3474/100288838-1671549225.jpg)`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
+        <CssBaseline />
+        <Button
+          size="large"
+          variant="contained"
+          color="primary"
+          onClick={() => setModalState(true)}
+          className={"classes.addButton"}
+        >
+          New Quest
+        </Button>
+        <Box width="40%">
+          <List>
+            {tasks.map((task) => {
+              return (
+                <ListItem
+                  key={task._id}
+                  divider={true}
+                  className={"classes.list"}
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <Checkbox
+                    onClick={() => handleComplete(task._id)}
+                    checked={task.status}
+                  />
+                  <Typography
+                    className={"classes.text"}
+                    style={{ color: task.isDone ? "green" : "" }}
+                    key={task.id}
+                    color={"#ffffff"}
+                  >
+                    {task.text}
+                  </Typography>
+                  <Button
+                    onClick={(e) => handleDelete(e, task._id)}
+                    color="secondary"
+                    variant="contained"
+                    className={"classes.listButtons"}
+                  >
+                    Delete
+                  </Button>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
+      </Box>
+
+      <Modal
+        open={modalState}
+        onClose={() => setModalState(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Add Quest
+          </Typography>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="text"
+            label="Quest details"
+            name="text"
+            autoFocus
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+          />
+          <Button
+            size="large"
+            variant="contained"
+            color="primary"
+            onClick={() => handleAdd()}
+            className={"classes.addButton"}
           >
-            <div className="checkbox"></div>
-            <div className="text">{task.text}</div>
-            <div
-              className="delete-task"
-              onClick={(e) => handleDelete(e, task._id)}
-            >
-              x
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="addPopup" onClick={() => setPopupActive(true)}>
-        +
-      </div>
-      {popupActive ? (
-        <div className="popup">
-          <div className="closePopup" onClick={() => setPopupActive(false)}>
-            x
-          </div>
-          <div className="content">
-            <h3>Add quest</h3>
-            <input
-              type="text"
-              className="add-task-input"
-              onChange={(e) => setNewTask(e.target.value)}
-              value={newTask}
-            />
-            <div className="button" onClick={() => handleAdd()}>
-              Create task
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
+            Add Quest
+          </Button>
+        </Box>
+      </Modal>
+      <ToastContainer />
     </div>
   );
 };

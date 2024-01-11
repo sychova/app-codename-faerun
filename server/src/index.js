@@ -29,7 +29,7 @@ mongoose
   .then(() => console.log("DB connection successfully established!"))
   .catch(console.error);
 
-app.post("/", (req, res) => res.status(200));
+app.post("/", authVerification, (req, res) => res.status(200));
 app.use("/auth", authRouter);
 app.use("/tasks", authVerification, tasksRouter);
 

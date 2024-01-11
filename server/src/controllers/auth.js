@@ -21,7 +21,7 @@ const register = async (req, res) => {
       withCredentials: true,
       httpOnly: false,
     });
-    res.status(201).json({ newUser });
+    res.status(201).json({ status: true });
   } catch (error) {
     console.error(error);
   }
@@ -32,33 +32,27 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({
-          status: false,
-          message: "Please provide both email and password.",
-        });
+      return res.status(400).json({
+        status: false,
+        message: "Please provide both email and password.",
+      });
     }
 
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res
-        .status(404)
-        .json({
-          status: false,
-          message: "User with provided email does not exist.",
-        });
+      return res.status(404).json({
+        status: false,
+        message: "User with provided email does not exist.",
+      });
     }
 
     const auth = await bcrypt.compare(password, existingUser.password);
 
     if (!auth) {
-      return res
-        .status(403)
-        .json({
-          status: false,
-          message: "You shall not pass! (wrong email or password)",
-        });
+      return res.status(403).json({
+        status: false,
+        message: "You shall not pass! (wrong email or password)",
+      });
     }
 
     const jwtToken = generateToken(existingUser._id);

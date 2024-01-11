@@ -21,6 +21,13 @@ const getTaskById = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
+  if (!req.body.text) {
+    return res.status(400).json({
+      status: false,
+      message: "Quest info is required",
+    });
+  }
+
   const newTask = new Task({
     text: req.body.text,
     user: req.userId,
