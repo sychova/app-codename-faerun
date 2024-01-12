@@ -74,11 +74,9 @@ const Tasks = () => {
     try {
       e.stopPropagation();
 
-      const response = await axios.delete(
-        `${API_BASE}/${id}`,
-        {},
-        { withCredentials: true }
-      );
+      const response = await axios.delete(`${API_BASE}/${id}`, {
+        withCredentials: true,
+      });
 
       const data = response.data;
 
