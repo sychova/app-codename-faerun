@@ -41,7 +41,7 @@ const Home = () => {
           textAlign: "center",
           padding: "20px",
           width: "100%",
-          margin: 0, // Remove default margin
+          margin: 0,
         }}
       >
         <Typography component="h1" variant="h3" color="inherit" gutterBottom>
