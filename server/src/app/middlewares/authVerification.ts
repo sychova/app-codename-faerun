@@ -13,7 +13,7 @@ const authVerification = (req: any, res: any, next: NextFunction) => {
       return res.status(403).json({ status: false, message: "1" });
     }
 
-    jwt.verify(jwtToken, TOKEN_KEY, async (error: any, data: any) => {
+    jwt.verify(jwtToken, TOKEN_KEY!, async (error: any, data: any) => {
       if (!error) {
         const user = await User.findById(data.id);
         if (user) {
