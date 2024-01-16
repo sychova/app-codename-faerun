@@ -7,4 +7,4 @@ const Env = {
   TOKEN_KEY: "defaultSecretKey",
 };
 
-export default Env;
+export = Env;

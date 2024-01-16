@@ -5,7 +5,7 @@ import {
   createTask,
   deleteTask,
   completeTask,
-} from "./tasks.js";
+} from "./tasks";
 
 export {
   register,

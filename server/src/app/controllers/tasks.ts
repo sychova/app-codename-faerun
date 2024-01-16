@@ -1,4 +1,4 @@
-import { Task } from "../models/index.js";
+import { Task } from "../models";
 
 const getTaskAll = async (req: any, res: any) => {
   try {
@@ -45,7 +45,7 @@ const deleteTask = async (req: any, res: any) => {
 };
 
 const completeTask = async (req: any, res: any) => {
-  const task = await Task.findById(req.params.id);
+  const task: any = await Task.findById(req.params.id);
 
   task.status = !task.status;
 
