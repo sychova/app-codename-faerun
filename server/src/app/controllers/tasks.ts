@@ -1,6 +1,6 @@
 import { Task } from "../models/index.js";
 
-const getTaskAll = async (req, res) => {
+const getTaskAll = async (req: any, res: any) => {
   try {
     const tasks = await Task.find({ user: req.userId });
 
@@ -10,7 +10,7 @@ const getTaskAll = async (req, res) => {
   }
 };
 
-const getTaskById = async (req, res) => {
+const getTaskById = async (req: any, res: any) => {
   try {
     const task = await Task.findById(req.params.id);
 
@@ -20,7 +20,7 @@ const getTaskById = async (req, res) => {
   }
 };
 
-const createTask = async (req, res) => {
+const createTask = async (req: any, res: any) => {
   if (!req.body.text) {
     return res.status(400).json({
       status: false,
@@ -38,13 +38,13 @@ const createTask = async (req, res) => {
   res.json(newTask);
 };
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req: any, res: any) => {
   const task = await Task.findByIdAndDelete(req.params.id);
 
   res.json(task);
 };
 
-const completeTask = async (req, res) => {
+const completeTask = async (req: any, res: any) => {
   const task = await Task.findById(req.params.id);
 
   task.status = !task.status;

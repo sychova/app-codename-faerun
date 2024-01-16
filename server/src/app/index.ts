@@ -1,13 +1,13 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
-import { authRouter, tasksRouter } from "./routes/index.js";
-const { MONGO_URL, PORT } = process.env;
+import { authRouter, tasksRouter } from "./routes";
+import { MONGO_URL, PORT } from "../config/envs";
 
-import authVerification from "./middlewares/authVerification.js";
+import authVerification from "./middlewares/authVerification";
 
 const app = express();
 
@@ -29,7 +29,9 @@ mongoose
   .then(() => console.log("DB connection successfully established!"))
   .catch(console.error);
 
-app.post("/", authVerification, (req, res) => res.status(200));
+app.post("/", authVerification, (req: Request, res: Response) =>
+  res.status(200)
+);
 app.use("/auth", authRouter);
 app.use("/tasks", tasksRouter);
 

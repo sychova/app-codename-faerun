@@ -1,10 +1,11 @@
+import { NextFunction } from "express";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 dotenv.config();
 
-import { User } from "../models/index.js";
+import { User } from "../models";
 
-const authVerification = (req, res, next) => {
+const authVerification = (req: any, res: any, next: NextFunction) => {
   try {
     const jwtToken = req.cookies.jwtToken;
     if (!jwtToken) {

@@ -1,4 +1,4 @@
-import { register, login } from "./auth.js";
+import { register, login } from "./auth";
 import {
   getTaskAll,
   getTaskById,

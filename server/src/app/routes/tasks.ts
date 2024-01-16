@@ -1,6 +1,6 @@
 import express from "express";
 
-import authVerification from "../middlewares/authVerification.js";
+import authVerification from "../middlewares/authVerification";
 import {
   getTaskAll,
   getTaskById,
