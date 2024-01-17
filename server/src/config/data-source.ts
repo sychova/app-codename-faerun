@@ -1,10 +1,8 @@
 import "reflect-metadata";
-import { DataSource, DataSourceOptions } from "typeorm";
-import { PG_DB, PG_HOST, PG_PASS, PG_PORT, PG_USER } from "./envs";
+import { DataSourceOptions, DataSource } from "typeorm";
+import { PG_DB, PG_HOST, PG_PASS, PG_USER } from "./envs";
 
-import { User, Guild } from "../app/entity";
-
-const ormConfigOptions: DataSourceOptions = {
+const ormconfig: DataSourceOptions = {
   name: "default",
   type: "postgres",
   host: PG_HOST,
@@ -13,11 +11,11 @@ const ormConfigOptions: DataSourceOptions = {
   database: PG_DB,
   synchronize: false,
   logging: false,
-  entities: [User, Guild],
-  migrations: [],
+  entities: ["./src/app/entity/*.ts"],
+  migrations: ["./src/migrations/*.ts"],
   subscribers: [],
 };
 
-const AppDataSource = new DataSource(ormConfigOptions);
+const AppDataSource = new DataSource(ormconfig);
 
-export { ormConfigOptions, AppDataSource };
+export { ormconfig, AppDataSource };

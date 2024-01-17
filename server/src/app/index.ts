@@ -8,7 +8,7 @@ import { authRouter, tasksRouter } from "./routes";
 import { PORT } from "../config/envs";
 import { createDatabase } from "typeorm-extension";
 
-import { ormConfigOptions, AppDataSource } from "../config/data-source";
+import { ormconfig, AppDataSource } from "../config/data-source";
 import authVerification from "./middlewares/authVerification";
 
 const app = express();
@@ -24,17 +24,19 @@ app.use(
 );
 
 (async () => {
-  await createDatabase({ options: ormConfigOptions, ifNotExist: true });
-  await AppDataSource.initialize();
-})();
+  await createDatabase({
+    options: ormconfig,
+    ifNotExist: true,
+  });
 
-// mongoose
-//   .connect(MONGO_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   } as ConnectOptions)
-//   .then(() => console.log("DB connection successfully established!"))
-//   .catch(console.error);
+  AppDataSource.initialize()
+    .then(async () => {
+      console.log("Data Source has been initialized!");
+    })
+    .catch((err) => {
+      console.error("Error during Data Source initialization", err);
+    });
+})();
 
 app.post("/", authVerification, (req: Request, res: Response) =>
   res.status(200)
