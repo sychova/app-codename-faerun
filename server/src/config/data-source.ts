@@ -11,7 +11,7 @@ const ormconfig: DataSourceOptions = {
   database: PG_DB,
   synchronize: false,
   logging: false,
-  entities: ["./src/app/entity/*.ts"],
+  entities: ["./src/app/entities/*.ts"],
   migrations: ["./src/migrations/*.ts"],
   subscribers: [],
 };
