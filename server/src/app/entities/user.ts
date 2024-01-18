@@ -1,11 +1,16 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
+
 import Base from "./base";
+import Task from "./task";
 
 @Entity()
 export default class User extends Base {
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 }

@@ -1,5 +1,7 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, ManyToOne } from "typeorm";
+
 import Base from "./base";
+import User from "./user";
 
 @Entity()
 export default class Task extends Base {
@@ -7,5 +9,8 @@ export default class Task extends Base {
   text: string;
 
   @Column()
-  status: string;
+  isComplete: boolean;
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  user: User;
 }
