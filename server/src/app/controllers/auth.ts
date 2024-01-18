@@ -1,21 +1,22 @@
 import bcrypt from "bcrypt";
 
-import { User } from "../models";
+import { userService } from "../services";
 import generateToken from "../utils/tokenGenerator";
 
 const register = async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser: any = await userService.getByEmail(email);
     if (existingUser) {
       return res
         .status(400)
         .json({ message: "User with this email already exists." });
     }
 
-    const newUser = await User.create({ email, password });
-    const jwtToken = generateToken(newUser._id);
+    const newUser: any = userService.create(email, password);
+
+    const jwtToken = generateToken(newUser.id);
 
     res.cookie("jwtToken", jwtToken, {
       withCredentials: true,
@@ -38,7 +39,7 @@ const login = async (req: any, res: any) => {
       });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser: any = await userService.getByEmail(email);
     if (!existingUser) {
       return res.status(404).json({
         status: false,
@@ -47,7 +48,6 @@ const login = async (req: any, res: any) => {
     }
 
     const auth = await bcrypt.compare(password, existingUser.password);
-
     if (!auth) {
       return res.status(403).json({
         status: false,

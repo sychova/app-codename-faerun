@@ -1,8 +1,8 @@
-import { Task } from "../models";
+import { taskService } from "../services";
 
 const getTaskAll = async (req: any, res: any) => {
   try {
-    const tasks = await Task.find({ user: req.userId });
+    const tasks = await taskService.getOwn(req.userId);
 
     res.json(tasks);
   } catch (error) {
@@ -12,7 +12,7 @@ const getTaskAll = async (req: any, res: any) => {
 
 const getTaskById = async (req: any, res: any) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await taskService.getById(req.params.id);
 
     res.json(task);
   } catch (error) {
@@ -24,32 +24,26 @@ const createTask = async (req: any, res: any) => {
   if (!req.body.text) {
     return res.status(400).json({
       status: false,
-      message: "Quest info is required",
+      message: "Task info is required",
     });
   }
 
-  const newTask = new Task({
+  const newTask = await taskService.create({
     text: req.body.text,
     user: req.userId,
   });
-
-  newTask.save();
 
   res.json(newTask);
 };
 
 const deleteTask = async (req: any, res: any) => {
-  const task = await Task.findByIdAndDelete(req.params.id);
+  const task = await taskService.softDelete(req.params.id);
 
   res.json(task);
 };
 
 const completeTask = async (req: any, res: any) => {
-  const task: any = await Task.findById(req.params.id);
-
-  task.status = !task.status;
-
-  task.save();
+  const task = taskService.complete(req.params.id);
 
   res.json(task);
 };
