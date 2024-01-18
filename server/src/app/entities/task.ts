@@ -8,7 +8,7 @@ export default class Task extends Base {
   @Column()
   text: string;
 
-  @Column()
+  @Column({ default: false })
   isComplete: boolean;
 
   @ManyToOne(() => User, (user) => user.tasks)
