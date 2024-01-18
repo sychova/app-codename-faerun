@@ -54,11 +54,12 @@ const Tasks = () => {
         {},
         { withCredentials: true }
       );
+
       const data = response.data;
 
       setTasks((tasks) =>
         tasks.map((task) => {
-          if (task._id === data._id) {
+          if (task.id === data.id) {
             task.isComplete = data.isComplete;
           }
 
@@ -80,7 +81,7 @@ const Tasks = () => {
 
       const data = response.data;
 
-      setTasks((tasks) => tasks.filter((task) => task._id !== data._id));
+      setTasks((tasks) => tasks.filter((task) => task.id !== data.id));
     } catch (error) {
       console.error(error);
     }
@@ -143,13 +144,13 @@ const Tasks = () => {
             {tasks.map((task) => {
               return (
                 <ListItem
-                  key={task._id}
+                  key={task.id}
                   divider={true}
                   className={"classes.list"}
                   style={{ justifyContent: "space-between" }}
                 >
                   <Checkbox
-                    onClick={() => handleComplete(task._id)}
+                    onClick={() => handleComplete(task.id)}
                     checked={task.isComplete}
                   />
                   <Typography
@@ -161,7 +162,7 @@ const Tasks = () => {
                     {task.text}
                   </Typography>
                   <Button
-                    onClick={(e) => handleDelete(e, task._id)}
+                    onClick={(e) => handleDelete(e, task.id)}
                     color="secondary"
                     variant="contained"
                     className={"classes.listButtons"}
