@@ -43,7 +43,7 @@ const deleteTask = async (req: any, res: any) => {
 };
 
 const completeTask = async (req: any, res: any) => {
-  const task = taskService.complete(req.params.id);
+  const task = await taskService.complete(req.params.id);
 
   res.json(task);
 };

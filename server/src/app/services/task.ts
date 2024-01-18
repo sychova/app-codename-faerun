@@ -4,13 +4,16 @@ import { Task } from "../entities";
 const taskRepository = AppDataSource.getRepository(Task);
 
 const getOwn = async (userId: any) => {
-  const tasks = await taskRepository.findBy({ user: userId });
+  const tasks = await taskRepository.find({
+    where: { user: userId },
+    withDeleted: false,
+  });
 
   return tasks;
 };
 
 const getById = async (taskId: any) => {
-  const task = await taskRepository.findOneBy({ id: taskId });
+  const task = await taskRepository.findOne({ where: { id: taskId } });
 
   return task;
 };
@@ -26,12 +29,18 @@ const create = async (newTaskData: any) => {
 };
 
 const softDelete = async (taskId: any) => {
-  taskRepository
+  await taskRepository
     .createQueryBuilder()
     .softDelete()
-    .where("id = :id", { id: taskId });
+    .where("id = :id", { id: taskId })
+    .execute();
 
-  return;
+  const task = await taskRepository.findOne({
+    where: { id: taskId },
+    withDeleted: true,
+  });
+
+  return task;
 };
 
 const complete = async (taskId: any) => {

@@ -55,7 +55,7 @@ const login = async (req: any, res: any) => {
       });
     }
 
-    const jwtToken = generateToken(existingUser._id);
+    const jwtToken = generateToken(existingUser.id);
 
     res.cookie("jwtToken", jwtToken, {
       withCredentials: true,
