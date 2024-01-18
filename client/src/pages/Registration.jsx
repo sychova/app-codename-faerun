@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,19 +10,39 @@ import {
   Typography,
   TextField,
   Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
-const API_BASE = "http://localhost:5000/auth";
+const API_BASE = "http://localhost:5000/";
 
 const Registration = () => {
   const navigate = useNavigate();
 
+  const [guilds, setGuilds] = useState([]);
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
 
   const { email, password } = inputValue;
+
+  const getGuilds = async () => {
+    try {
+      const { data } = await axios.get(API_BASE + "guilds", {
+        withCredentials: true,
+      });
+      setGuilds(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getGuilds();
+  }, []);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -35,18 +55,32 @@ const Registration = () => {
   const handleError = (err) =>
     toast.error(err, {
       position: "bottom-left",
+      autoClose: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
     });
 
   const handleSuccess = () =>
     toast.success("Qapla'!", {
       position: "bottom-right",
+      autoClose: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
     });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        API_BASE + "/registration",
+        API_BASE + "auth/registration",
         {
           ...inputValue,
         },
@@ -126,6 +160,22 @@ const Registration = () => {
                 value={email}
                 onChange={handleOnChange}
               />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Choose your guild
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  // value={age}
+                  label="Age"
+                  // onChange={handleChange}
+                >
+                  {guilds.map((guild) => {
+                    return <MenuItem value={guild.id}>{guild.name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
               <TextField
                 margin="normal"
                 required

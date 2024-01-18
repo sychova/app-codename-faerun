@@ -17,7 +17,7 @@ import {
 
 import verifyCookie from "../helpers/verifyCookie.js";
 
-const API_BASE = "http://localhost:5000/tasks";
+const API_BASE = "http://localhost:5000/";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -30,7 +30,9 @@ const Tasks = () => {
 
   const getTasks = async () => {
     try {
-      const { data } = await axios.get(API_BASE, { withCredentials: true });
+      const { data } = await axios.get(API_BASE + "tasks", {
+        withCredentials: true,
+      });
       setTasks(data);
     } catch (error) {
       console.error(error);
@@ -50,7 +52,7 @@ const Tasks = () => {
   const handleComplete = async (id) => {
     try {
       const response = await axios.put(
-        `${API_BASE}/${id}/complete`,
+        `${API_BASE}/tasks/${id}/complete`,
         {},
         { withCredentials: true }
       );
@@ -75,7 +77,7 @@ const Tasks = () => {
     try {
       e.stopPropagation();
 
-      const response = await axios.delete(`${API_BASE}/${id}`, {
+      const response = await axios.delete(`${API_BASE}/tasks/${id}`, {
         withCredentials: true,
       });
 
@@ -90,7 +92,7 @@ const Tasks = () => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        API_BASE,
+        API_BASE + "tasks",
         { text: newTask },
         {
           headers: {

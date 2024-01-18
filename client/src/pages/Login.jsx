@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 
-const API_BASE = "http://localhost:5000/auth";
+const API_BASE = "http://localhost:5000/";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        API_BASE + "/login",
+        API_BASE + "auth/login",
         {
           ...inputValue,
         },
