@@ -59,7 +59,7 @@ const Tasks = () => {
       setTasks((tasks) =>
         tasks.map((task) => {
           if (task._id === data._id) {
-            task.status = data.status;
+            task.isComplete = data.isComplete;
           }
 
           return task;
@@ -150,7 +150,7 @@ const Tasks = () => {
                 >
                   <Checkbox
                     onClick={() => handleComplete(task._id)}
-                    checked={task.status}
+                    checked={task.isComplete}
                   />
                   <Typography
                     className={"classes.text"}
