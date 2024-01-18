@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 import { TOKEN_KEY } from "../../config/envs";
 
-import { User } from "../models";
+import { getById } from "../services/user";
 
 const authVerification = (req: any, res: any, next: NextFunction) => {
   try {
@@ -15,7 +15,7 @@ const authVerification = (req: any, res: any, next: NextFunction) => {
 
     jwt.verify(jwtToken, TOKEN_KEY!, async (error: any, data: any) => {
       if (!error) {
-        const user = await User.findById(data.id);
+        const user = await getById(data.id);
         if (user) {
           req.userId = data.id;
           next();

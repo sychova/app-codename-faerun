@@ -5,6 +5,12 @@ import { User } from "../entities";
 
 const userRepository = AppDataSource.getRepository(User);
 
+const getById = async (userId: any) => {
+  const user = await userRepository.findOneBy({ id: userId });
+
+  return user;
+};
+
 const getByEmail = async (email: any) => {
   const user = await userRepository.findOneBy({ email });
 
@@ -21,4 +27,4 @@ const create = async (email: any, password: any) => {
   return newUser;
 };
 
-export { getByEmail, create };
+export { getByEmail, create, getById };
