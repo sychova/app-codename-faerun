@@ -9,8 +9,8 @@ import { getById } from "../services/user";
 const authVerification = (req: any, res: any, next: NextFunction) => {
   try {
     const jwtToken = req.cookies.jwtToken;
-    if (!jwtToken) {
-      return res.status(403).json({ status: false, message: "1" });
+    if (!jwtToken || jwtToken === "undefined") {
+      return res.status(403).json({ status: false });
     }
 
     jwt.verify(jwtToken, TOKEN_KEY!, async (error: any, data: any) => {

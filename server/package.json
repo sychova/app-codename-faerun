@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon src/app/index.ts",
-    "start": "npm run build && node dist/app/index.js",
+    "start": "npm run build && npm run migration:run && node dist/app/index.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npx --no-install typeorm-ts-node-commonjs migration:generate --dataSource ./src/config/data-source.ts",
     "migration:create": "npx --no-install typeorm-ts-node-commonjs migration:create --dataSource ./src/config/data-source.ts",

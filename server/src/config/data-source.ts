@@ -5,14 +5,14 @@ import { PG_DB, PG_HOST, PG_PASS, PG_USER } from "./envs";
 const ormconfig: DataSourceOptions = {
   name: "default",
   type: "postgres",
-  host: PG_HOST,
+  host: process.env.POSTGRES_HOST || PG_HOST,
   username: PG_USER,
   password: PG_PASS,
   database: PG_DB,
   synchronize: false,
   logging: false,
-  entities: ["./src/app/entities/*.ts"],
-  migrations: ["./src/migrations/*.ts"],
+  entities: ["./dist/app/entities/*.{js,ts}"],
+  migrations: ["./dist/migrations/*.{js,ts}"],
   subscribers: [],
 };
 
