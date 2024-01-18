@@ -21,11 +21,11 @@ const authVerification = (req: any, res: any, next: NextFunction) => {
           next();
         }
         if (!user) {
-          return res.status(403).json({ status: false, message: "2" });
+          return res.status(403).json({ status: false });
         }
       }
       if (error) {
-        return res.status(403).json({ status: false, message: "3" });
+        return res.status(403).json({ status: false });
       }
     });
   } catch (error) {
