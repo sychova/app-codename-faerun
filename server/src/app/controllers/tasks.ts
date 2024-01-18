@@ -1,6 +1,6 @@
 import { taskService } from "../services";
 
-const getTaskAll = async (req: any, res: any) => {
+const getAll = async (req: any, res: any) => {
   try {
     const tasks = await taskService.getOwn(req.userId);
 
@@ -10,7 +10,7 @@ const getTaskAll = async (req: any, res: any) => {
   }
 };
 
-const getTaskById = async (req: any, res: any) => {
+const getById = async (req: any, res: any) => {
   try {
     const task = await taskService.getById(req.params.id);
 
@@ -20,7 +20,7 @@ const getTaskById = async (req: any, res: any) => {
   }
 };
 
-const createTask = async (req: any, res: any) => {
+const create = async (req: any, res: any) => {
   if (!req.body.text) {
     return res.status(400).json({
       status: false,
@@ -36,16 +36,16 @@ const createTask = async (req: any, res: any) => {
   res.json(newTask);
 };
 
-const deleteTask = async (req: any, res: any) => {
+const softDelete = async (req: any, res: any) => {
   const task = await taskService.softDelete(req.params.id);
 
   res.json(task);
 };
 
-const completeTask = async (req: any, res: any) => {
+const complete = async (req: any, res: any) => {
   const task = await taskService.complete(req.params.id);
 
   res.json(task);
 };
 
-export { getTaskAll, getTaskById, createTask, deleteTask, completeTask };
+export { getAll, getById, create, softDelete, complete };

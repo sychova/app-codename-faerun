@@ -1,23 +1,17 @@
 import express from "express";
 
 import authVerification from "../middlewares/authVerification";
-import {
-  getTaskAll,
-  getTaskById,
-  createTask,
-  deleteTask,
-  completeTask,
-} from "../controllers";
+import { tasksController } from "../controllers";
 
 const tasksRouter = express.Router();
 
-tasksRouter.get("/", authVerification, getTaskAll);
-tasksRouter.get("/:id", authVerification, getTaskById);
+tasksRouter.get("/", authVerification, tasksController.getAll);
+tasksRouter.get("/:id", authVerification, tasksController.getById);
 
-tasksRouter.post("/", authVerification, createTask);
+tasksRouter.post("/", authVerification, tasksController.create);
 
-tasksRouter.delete("/:id", authVerification, deleteTask);
+tasksRouter.delete("/:id", authVerification, tasksController.softDelete);
 
-tasksRouter.put("/:id/complete", authVerification, completeTask);
+tasksRouter.put("/:id/complete", authVerification, tasksController.complete);
 
 export default tasksRouter;

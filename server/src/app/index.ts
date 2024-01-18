@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
-import { authRouter, tasksRouter } from "./routes";
+import { authRouter, tasksRouter, guildsRouter } from "./routes";
 import { PORT } from "../config/envs";
 import { createDatabase } from "typeorm-extension";
 
@@ -42,6 +42,7 @@ app.post("/", authVerification, (req: Request, res: Response) =>
 );
 app.use("/auth", authRouter);
 app.use("/tasks", tasksRouter);
+app.use("/guilds", guildsRouter);
 
 const port = PORT || 5000;
 

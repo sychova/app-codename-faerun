@@ -1,18 +1,5 @@
-import { register, login } from "./auth";
-import {
-  getTaskAll,
-  getTaskById,
-  createTask,
-  deleteTask,
-  completeTask,
-} from "./tasks";
+import * as auth from "./auth";
+import * as tasksController from "./tasks";
+import * as guildsController from "./guilds";
 
-export {
-  register,
-  login,
-  getTaskAll,
-  getTaskById,
-  createTask,
-  deleteTask,
-  completeTask,
-};
+export { auth, tasksController, guildsController };
