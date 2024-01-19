@@ -5,7 +5,7 @@ import { guildsController } from "../controllers";
 
 const guildsRouter = express.Router();
 
-guildsRouter.get("/", guildsController.getGuildsAll);
+guildsRouter.get("/", guildsController.getAll);
 
 // tasksRouter.get("/", authVerification, getTaskAll);
 // tasksRouter.get("/:id", authVerification, getTaskById);
