@@ -17,7 +17,10 @@ const authVerification = (req: any, res: any, next: NextFunction) => {
       if (!error) {
         const user = await getById(data.id);
         if (user) {
-          req.userId = data.id;
+          req.user = {
+            userId: data.id,
+            isAdmin: user.isAdmin,
+          };
           next();
         }
         if (!user) {
