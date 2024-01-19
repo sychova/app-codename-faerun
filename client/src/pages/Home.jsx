@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Box, Typography, CssBaseline, Button } from "@mui/material";
@@ -10,10 +10,16 @@ import verifyCookie from "../helpers/verifyCookie.js";
 const Home = () => {
   const navigate = useNavigate();
 
+  const [userIsAdmin, setUserIsAdmin] = useState([]);
   const [cookies, removeCookie] = useCookies([]);
 
   useEffect(() => {
-    verifyCookie(cookies, navigate);
+    (async () => {
+      const user = await verifyCookie(cookies, navigate);
+      if (user) {
+        setUserIsAdmin(user.isAdmin);
+      }
+    })();
   }, [cookies, navigate]);
 
   const logout = () => {
@@ -95,6 +101,19 @@ const Home = () => {
             Want advice?
           </Button>
         </Box>
+        {userIsAdmin ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            component={Link}
+            // to="/"
+            sx={{ margin: 1 }}
+          >
+            Guilds
+          </Button>
+        ) : (
+          ""
+        )}
         <Button
           variant="contained"
           color="secondary"
