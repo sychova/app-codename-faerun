@@ -1,5 +1,7 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
+
 import Base from "./base";
+import User from "./user";
 
 @Entity()
 export default class Guild extends Base {
@@ -8,4 +10,7 @@ export default class Guild extends Base {
 
   @Column()
   description: string;
+
+  @OneToMany(() => User, (user) => user.guild)
+  users: User[];
 }
