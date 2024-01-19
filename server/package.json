@@ -10,7 +10,7 @@
     "start": "npm run build && npm run migration:run && node dist/app/index.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npx --no-install typeorm-ts-node-commonjs migration:generate --dataSource ./src/config/data-source.ts",
-    "migration:create": "npx --no-install typeorm-ts-node-commonjs migration:create --dataSource ./src/config/data-source.ts",
+    "migration:create": "npx --no-install typeorm-ts-node-commonjs migration:create",
     "migration:show": "npx --no-install typeorm-ts-node-commonjs migration:show --dataSource ./src/config/data-source.ts",
     "migration:run": "npx --no-install typeorm-ts-node-commonjs migration:run --dataSource ./src/config/data-source.ts"
   },
