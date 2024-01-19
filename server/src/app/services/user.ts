@@ -17,9 +17,10 @@ const getByEmail = async (email: any) => {
   return user;
 };
 
-const create = async (email: any, password: any) => {
+const create = async (email: any, guild: any, password: any) => {
   const user = new User();
   user.email = email;
+  user.guild = guild;
   user.password = await bcrypt.hash(password, 12);
 
   const newUser = await userRepository.save(user);
