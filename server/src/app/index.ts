@@ -37,9 +37,9 @@ app.use(
     });
 })();
 
-app.post("/", authVerification, (req: Request, res: Response) =>
-  res.status(200)
-);
+app.post("/", authVerification, (req: any, res: any) => {
+  res.json({ user: req.user });
+});
 app.use("/auth", authRouter);
 app.use("/tasks", tasksRouter);
 app.use("/guilds", guildsRouter);
