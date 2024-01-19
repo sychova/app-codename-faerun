@@ -2,7 +2,7 @@ import { taskService } from "../services";
 
 const getAll = async (req: any, res: any) => {
   try {
-    const tasks = await taskService.getOwn(req.userId);
+    const tasks = await taskService.getOwn(req.user.userId);
 
     res.json(tasks);
   } catch (error) {
@@ -30,7 +30,7 @@ const create = async (req: any, res: any) => {
 
   const newTask = await taskService.create({
     text: req.body.text,
-    user: req.userId,
+    user: req.user.userId,
   });
 
   res.json(newTask);
