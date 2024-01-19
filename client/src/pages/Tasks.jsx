@@ -52,7 +52,7 @@ const Tasks = () => {
   const handleComplete = async (id) => {
     try {
       const response = await axios.put(
-        `${API_BASE}/tasks/${id}/complete`,
+        `${API_BASE}tasks/${id}/complete`,
         {},
         { withCredentials: true }
       );
@@ -77,7 +77,7 @@ const Tasks = () => {
     try {
       e.stopPropagation();
 
-      const response = await axios.delete(`${API_BASE}/tasks/${id}`, {
+      const response = await axios.delete(`${API_BASE}tasks/${id}`, {
         withCredentials: true,
       });
 
