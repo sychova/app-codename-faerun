@@ -5,7 +5,19 @@ import generateToken from "../utils/tokenGenerator";
 
 const register = async (req: any, res: any) => {
   try {
-    const { email, password } = req.body;
+    const { email, guild, password } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Please provide a valid email." });
+    }
+    if (!guild) {
+      return res.status(400).json({ message: "Please choose a guild." });
+    }
+    if (!password) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid password." });
+    }
 
     const existingUser: any = await userService.getByEmail(email);
     if (existingUser) {
@@ -14,7 +26,7 @@ const register = async (req: any, res: any) => {
         .json({ message: "User with this email already exists." });
     }
 
-    const newUser: any = userService.create(email, password);
+    const newUser: any = userService.create(email, guild, password);
 
     const jwtToken = generateToken(newUser.id);
 
