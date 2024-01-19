@@ -60,6 +60,7 @@ const Login = () => {
       const { status, message } = error.response.data;
 
       setTimeout(() => {
+        setInputValue({ ...inputValue, email, password });
         handleError(message);
       }, "10");
     }
