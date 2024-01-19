@@ -24,16 +24,18 @@ const Registration = () => {
   const [guilds, setGuilds] = useState([]);
   const [inputValue, setInputValue] = useState({
     email: "",
+    guild: "",
     password: "",
   });
 
-  const { email, password } = inputValue;
+  const { email, guild, password } = inputValue;
 
   const getGuilds = async () => {
     try {
       const { data } = await axios.get(API_BASE + "guilds", {
         withCredentials: true,
       });
+
       setGuilds(data);
     } catch (error) {
       console.error(error);
@@ -78,6 +80,7 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(
         API_BASE + "auth/registration",
@@ -95,19 +98,18 @@ const Registration = () => {
         }, 10);
         navigate("/");
       }
-
-      if (!status) {
-      }
     } catch (error) {
       const { status, message } = error.response.data;
 
       setTimeout(() => {
+        setInputValue({ ...inputValue, email, guild, password });
         handleError(message);
       }, "10");
     }
     setInputValue({
       ...inputValue,
       email: "",
+      guild: "",
       password: "",
     });
   };
@@ -160,19 +162,22 @@ const Registration = () => {
                 value={email}
                 onChange={handleOnChange}
               />
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Choose your guild
-                </InputLabel>
+              <FormControl fullWidth required>
+                <InputLabel id="guild-label">Choose your guild</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={age}
-                  label="Age"
-                  // onChange={handleChange}
+                  labelId="guild-label"
+                  id="guild"
+                  label="Guild"
+                  name="guild"
+                  value={guild}
+                  onChange={handleOnChange}
                 >
                   {guilds.map((guild) => {
-                    return <MenuItem value={guild.id}>{guild.name}</MenuItem>;
+                    return (
+                      <MenuItem key={guild.id} value={guild.id}>
+                        {guild.name}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>
