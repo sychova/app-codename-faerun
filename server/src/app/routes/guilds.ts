@@ -7,13 +7,4 @@ const guildsRouter = express.Router();
 
 guildsRouter.get("/", guildsController.getAll);
 
-// tasksRouter.get("/", authVerification, getTaskAll);
-// tasksRouter.get("/:id", authVerification, getTaskById);
-
-// tasksRouter.post("/", authVerification, createTask);
-
-// tasksRouter.delete("/:id", authVerification, deleteTask);
-
-// tasksRouter.put("/:id/complete", authVerification, completeTask);
-
 export default guildsRouter;

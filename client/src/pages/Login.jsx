@@ -80,8 +80,7 @@ const Login = () => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage:
-            "url(https://preview.redd.it/4m0c6xhm1vib1.jpg?width=2560&format=pjpg&auto=webp&s=6efd34a56fbe4cec2d694b581630d491f9dff72a)",
+          backgroundImage: `url(http://localhost:3000/images/auth-bg.jpg)`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",

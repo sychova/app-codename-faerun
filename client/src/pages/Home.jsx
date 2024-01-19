@@ -58,7 +58,7 @@ const Home = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: `url(https://staticdelivery.nexusmods.com/images/3474/100288838-1671549225.jpg)`,
+        backgroundImage: `url(http://localhost:3000/images/home-bg.jpg)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -106,7 +106,7 @@ const Home = () => {
             variant="contained"
             color="secondary"
             component={Link}
-            // to="/"
+            to="/guilds"
             sx={{ margin: 1 }}
           >
             Guilds

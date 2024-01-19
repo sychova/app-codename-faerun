@@ -4,7 +4,11 @@ import { Guild } from "../entities";
 const guildRepository = AppDataSource.getRepository(Guild);
 
 const getAll = async () => {
-  const guilds = await guildRepository.find();
+  const guilds = await guildRepository.find({
+    relations: {
+      users: true,
+    },
+  });
 
   return guilds;
 };
