@@ -17,7 +17,7 @@ import {
 
 import verifyCookie from "../helpers/verifyCookie.js";
 
-const API_BASE = "http://localhost:5000/tasks";
+const API_BASE = "http://localhost:5000/";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -30,7 +30,9 @@ const Tasks = () => {
 
   const getTasks = async () => {
     try {
-      const { data } = await axios.get(API_BASE, { withCredentials: true });
+      const { data } = await axios.get(API_BASE + "tasks", {
+        withCredentials: true,
+      });
       setTasks(data);
     } catch (error) {
       console.error(error);
@@ -50,16 +52,17 @@ const Tasks = () => {
   const handleComplete = async (id) => {
     try {
       const response = await axios.put(
-        `${API_BASE}/${id}/complete`,
+        `${API_BASE}tasks/${id}/complete`,
         {},
         { withCredentials: true }
       );
+
       const data = response.data;
 
       setTasks((tasks) =>
         tasks.map((task) => {
-          if (task._id === data._id) {
-            task.status = data.status;
+          if (task.id === data.id) {
+            task.isComplete = data.isComplete;
           }
 
           return task;
@@ -74,13 +77,13 @@ const Tasks = () => {
     try {
       e.stopPropagation();
 
-      const response = await axios.delete(`${API_BASE}/${id}`, {
+      const response = await axios.delete(`${API_BASE}tasks/${id}`, {
         withCredentials: true,
       });
 
       const data = response.data;
 
-      setTasks((tasks) => tasks.filter((task) => task._id !== data._id));
+      setTasks((tasks) => tasks.filter((task) => task.id !== data.id));
     } catch (error) {
       console.error(error);
     }
@@ -89,7 +92,7 @@ const Tasks = () => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        API_BASE,
+        API_BASE + "tasks",
         { text: newTask },
         {
           headers: {
@@ -114,7 +117,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="App">
+    <div>
       <Box
         style={{
           height: "100vh",
@@ -122,7 +125,7 @@ const Tasks = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage: `url(https://staticdelivery.nexusmods.com/images/3474/100288838-1671549225.jpg)`,
+          backgroundImage: `url(http://localhost:3000/images/home-bg.jpg)`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -143,14 +146,14 @@ const Tasks = () => {
             {tasks.map((task) => {
               return (
                 <ListItem
-                  key={task._id}
+                  key={task.id}
                   divider={true}
                   className={"classes.list"}
                   style={{ justifyContent: "space-between" }}
                 >
                   <Checkbox
-                    onClick={() => handleComplete(task._id)}
-                    checked={task.status}
+                    onClick={() => handleComplete(task.id)}
+                    checked={task.isComplete}
                   />
                   <Typography
                     className={"classes.text"}
@@ -161,7 +164,7 @@ const Tasks = () => {
                     {task.text}
                   </Typography>
                   <Button
-                    onClick={(e) => handleDelete(e, task._id)}
+                    onClick={(e) => handleDelete(e, task.id)}
                     color="secondary"
                     variant="contained"
                     className={"classes.listButtons"}

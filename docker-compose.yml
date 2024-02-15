@@ -1,9 +1,16 @@
 version: "3"
 services:
-  mongo:
-    image: mongo
+  postgres_db:
+    image: postgres
+    container_name: postgres_db
     volumes:
-      - data:/data/mongo
+      - data:/data/postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: sorcerous-sundries
+    ports:
+      - "5432:5432"
   server:
     build: ./server
     ports:
@@ -11,8 +18,10 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
+    environment:
+      POSTGRES_HOST: postgres_db
     depends_on:
-      - mongo
+      - postgres_db
   client:
     build: ./client
     ports:

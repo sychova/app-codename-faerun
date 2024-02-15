@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-import { Home, Registration, Login, Tasks } from "./pages";
+import { Home, Registration, Login, Tasks, Guilds } from "./pages";
 
 const theme = createTheme({
   palette: {
@@ -16,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth/registration" element={<Registration />} />
+          <Route path="/guilds" element={<Guilds />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/auth/login" element={<Login />} />
         </Routes>
